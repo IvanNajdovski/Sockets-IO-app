@@ -17,6 +17,17 @@ app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
     console.log('New user connected');
+
+
+        socket.emit('newMessage', {
+            from: 'ivannajdovski@hotmail.com',
+            text: "Ti se izlaga li vecer",
+            createdAt: 123
+        });
+        socket.on('CreateMessage', (Message) => {
+            console.log('New message :', Message);
+        });
+        
         socket.on('disconnect', () => {
              console.log('User has disconnected');
 });
@@ -28,5 +39,3 @@ server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-// console.log(__dirname + "/../public");
-// console.log(path.join(__dirname,"/../public"))
