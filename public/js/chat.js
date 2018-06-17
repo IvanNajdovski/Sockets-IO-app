@@ -20,7 +20,17 @@ function scrollToBottom(){
 
 
 socket.on('connect', function() {
-    console.log('Connected to user');
+    var params = $.deparam(window.location.search);
+
+    socket.emit('join', params, function(err) {
+        if (err){
+            alert(err);
+            window.location.href= "/";
+        }else{
+            console.log('No error');
+
+        }
+    });
    });
 socket.on('disconnect', function() {
     console.log('Disconnected from server');
@@ -54,7 +64,7 @@ $('#message-form').on('submit', function(e) {
     e.preventDefault();
         var messageTextbox = $('[name=message]')
     socket.emit('createMessage', {
-        from: 'User',
+        from: 'user',
         text: messageTextbox.val()
     },function () {
         messageTextbox.val('')
